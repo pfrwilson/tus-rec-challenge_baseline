@@ -11,6 +11,7 @@ import torch
 # R = 3x3 rotation matrix
 # t = 3x1 column vector
 
+
 def rigid_transform_3D(A, B):
     assert A.size() == B.size()
 
@@ -37,7 +38,7 @@ def rigid_transform_3D(A, B):
     H = torch.matmul(Am, torch.t(Bm))
 
     # sanity check
-    #if linalg.matrix_rank(H) < 3:
+    # if linalg.matrix_rank(H) < 3:
     #    raise ValueError("rank of H = {}, expecting 3".format(linalg.matrix_rank(H)))
 
     # find rotation
@@ -47,7 +48,7 @@ def rigid_transform_3D(A, B):
     # special reflection case
     if torch.linalg.det(R) < 0:
         # print("det(R) < R, reflection detected!, correcting for it ...")
-        Vt[2,:] *= -1
+        Vt[2, :] *= -1
         R = torch.matmul(torch.t(Vt), torch.t(U))
 
     t = -torch.matmul(R, centroid_A) + centroid_B
